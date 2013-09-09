@@ -48,9 +48,9 @@ var sumContributions = function(year, ids, contributions) {
 	return sum;
 }
 
-var totalPerYear = function(info, contributions) {
+var totalPerYear = function(country, contributions) {
 	var ret = {};
-	$.each(info.extra_data.contributions_by_year, function(k,v){
+	$.each(country.json.extra_data.contributions_by_year, function(k,v){
 		ret[k] = sumContributions(k, v, contributions)
 	});
 	return ret;
@@ -74,31 +74,16 @@ var dataset = function(values, r, g, b) {
 	 };
 }
 
-var render = function(labels, datasets) {
+var renderGraph = function(labels, dataset) {
 	if (graph == null) {
  		graph = new Chart(document.getElementById("canvas").getContext("2d"));
  	}
 	var lineChartData = {
 		labels: labels,
-		datasets : datasets
+		datasets : dataset
 	};
 
  	graph.Line(lineChartData);
-}
-
-var fetch = function(url) {
-	var info = {};
-	var call = $.ajax({
-		url: url,
-		dataType: "json",
-		async: false
-	}).done(function(data) { 
-		info = data
-	});
-	return info;	
-}
-var countryInfo = function(countryId) {
-	return fetch('http://api.openaid.se/api/v1/country?id=' + countryId)[0];
 }
 
 var countryContributions = function(countryId) {
@@ -109,22 +94,70 @@ var countryContributions = function(countryId) {
 	return ret;
 }
 
-var countrySelect = function(sel) {
-	var country = $(sel).val();
-	var info = countryInfo(country);
-	$("h1").text(info['name_swe']);
-	var contributions = countryContributions(country);
-	var perYear = totalPerYear(info, contributions);
-	render(Object.keys(perYear), [dataset(values(perYear))]);
-
+var clearTable = function(table) {
+	table.find("tbody").html("")
 }
 
+var addRow = function(table, year, name, outcome) {
+	table.append('<tr><td>' + year + '</td><td>' + name + '</td><td>' + outcome + '</td></tr>');
+}
+
+var countrySelect = function(sel) {
+	var countryId = $(sel).val();
+	var country = createCountry(countryId);
+	$("h1").text(country.name());
+	var contributions = countryContributions(countryId);
+	var perYear = totalPerYear(country, contributions);
+	renderGraph(Object.keys(perYear), [dataset(values(perYear), 100, 100, 255)]);
+	renderContributionsTable(country, contributions);
+}
+
+function isInt(value) { 
+    return !isNaN(parseInt(value,10)) && (parseFloat(value,10) == parseInt(value,10)); 
+}
+
+var wash = function(x) {
+	return isInt(x) ? x : 0;
+}
+
+var renderContributionsTable = function(country, contributions) {
+	var table = $("#contributions");
+	var compareOutcomes = function(a, b) {
+		var ca = contributions[a];
+		if (ca == undefined) {
+			return 1;
+		}
+
+		var cb = contributions[b];
+		if (cb == undefined){
+			return -1;
+		}
+		return wash(cb.outcome_total) - wash(ca.outcome_total);
+	};
+
+	var sorted = country.json.contributions.slice(0);
+	sorted.sort(compareOutcomes);
+	clearTable(table)
+	$.each(sorted.slice(0,20), function(i,id) {
+		var c = contributions[id];
+		if (c != undefined)
+			addRow(table, c.years != undefined ? c.years[0] : "", c.name, c.outcome_total);
+	});
+};
+
 $(document).ready(function() {
-	var GLOBAL = 98;
-	var IRAQ = 120;
-	var info = countryInfo(IRAQ);
-	$("h1").text(info['name_swe']);
-	var contributions = countryContributions(IRAQ)
-	var perYear = totalPerYear(info, contributions);
-	render(Object.keys(perYear), [dataset(values(perYear))]);
+	try {
+		var GLOBAL = 98;
+		var IRAQ = 120;
+		var country = createCountry(IRAQ);
+		$("h1").text(country.name());
+		var contributions = countryContributions(IRAQ)
+		var _totalPerYear = totalPerYear(country, contributions);
+		renderGraph(Object.keys(_totalPerYear), [dataset(values(_totalPerYear), 100, 100, 255)]);
+
+		renderContributionsTable(country, contributions);
+	} catch (e) {
+		console.log(e.message);
+	}
+
 })

@@ -1,15 +1,20 @@
 <!doctype html>
 <html>
 	<head>
+		<meta charset="UTF-8">
 		<title>OpenAid Visualization</title>
 		<meta name = "viewport" content = "initial-scale = 1, user-scalable = no">
 		<style>s
 			canvas{
 			}
 		</style>
+		<link rel="stylesheet" href="css/bootstrap.min.css">
 	</head>
 	<body>
 		<h1></h1>
+		<div class="container">
+		<div class="row">
+		<div class="col-lg-8">
 		<p><select onchange="countrySelect(this)">
 			<option value="98">Globalt</option>
 			<option value="1">Afghanistan</option>
@@ -20,7 +25,7 @@
 			<option value="11">Armenien</option>
 			<option value="15">Azerbajdzjan</option>
 			<option value="18">Bangladesh</option>
-			<option value="22">undefined</option>
+			<option value="22">Samordnare Mali</option>
 			<option value="23">Benin</option>
 			<option value="25">Bhutan</option>
 			<option value="26">Bolivia</option>
@@ -183,8 +188,27 @@
 			<option value="312">Western Balkan</option>
 		</select></p>
 		<canvas id="canvas" height="450" width="640"></canvas>
-		<script src="Chart.js"></script>
-		<script src="jquery-2.0.3.js"></script>
-		<script src="openaid.js"></script>
+		</div><!-- .col-lg-6 -->
+		<div class="col-lg-4">
+			<table class="table" id="contributions">
+				<thead>
+					<tr>
+						<th>År</th>
+						<th>Projekt</th>
+						<th class="align-right">Summa</th>
+					</tr>
+				</thead>
+				<tbody class=".table-striped">
+				</tbody>
+			</table>
+		</div>
+		</div><!-- .row -->
+		</div><!-- .container -->
+		<script src="js/Chart.js"></script>
+		<script src="js/jquery-2.0.3.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+		<script src="js/openaid-country.js"></script>
+		<script src="js/openaid.js"></script>
+
 	</body>
 </html>
