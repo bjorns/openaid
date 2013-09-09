@@ -1,17 +1,4 @@
-
-var fetch = function(url) {
-	var info = {};
-	var call = $.ajax({
-		url: url,
-		dataType: "json",
-		async: false
-	}).done(function(data) { 
-		info = data
-	}).fail(function(data, message, error) {
-		throw new Error("Failed to fetch data on " + url + ", cause: " + data.responseText);
-	});
-	return info;	
-}
+"use strict"
 
 function Country(countryId, json) {
 	this.countryId = countryId;
@@ -27,8 +14,7 @@ Country.prototype.name = function() {
 		console.log("Undefined country data for id " + this.countryId)
 		return countryId;
 	}
-
-	ret = this.json['name_swe'];
+	var ret = this.json['name_swe'];
 	if (ret == undefined) {
 		ret = this.json['name'];
 	}
@@ -36,4 +22,11 @@ Country.prototype.name = function() {
 		ret = this.json['name_eng'];
 	}
 	return ret;
+};
+
+Country.prototype.contributions = function() {
+	if (this._contributions == undefined) {
+		this._contributions = createContributions(this);
+	}
+	return this._contributions;
 };
