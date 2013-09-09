@@ -1,0 +1,4 @@
+.table th.currency,
+.table td.currency {
+  text-align: right;
+}

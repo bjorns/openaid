@@ -59,10 +59,6 @@ var clearTable = function(table) {
 	table.find("tbody").html("")
 }
 
-var addRow = function(table, year, name, outcome) {
-	table.append('<tr><td>' + year + '</td><td>' + name + '</td><td>' + outcome + '</td></tr>');
-}
-
 var countrySelectInternal = function(countryId) {
 	try {
 		$('.alert').hide();

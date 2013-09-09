@@ -57,6 +57,22 @@ Contributions.prototype.totalPerYear = function() {
 	return this.perYear;
 }
 
+var currency = function(nbr) {
+	var s = '' + nbr.toFixed(0);
+	var ret = '';
+	for(var i = 0; i < s.length; ++i) {
+		if (i>0 && i%3==0) {
+			ret = ' ' + ret
+		}
+		ret = s[s.length-1-i] + ret;
+	}
+	return ret;
+}
+
+var addRow = function(table, year, name, outcome) {
+	table.append('<tr><td>' + year + '</td><td>' + name + '</td><td class="currency">' + outcome + '</td></tr>');
+}
+
 Contributions.prototype.renderAsTable = function() {
 	var table = $("#contributions");
 	var contributions = this.lastYear;
@@ -79,6 +95,6 @@ Contributions.prototype.renderAsTable = function() {
 	$.each(sorted.slice(0,10), function(i,id) {
 		var c = contributions[id];
 		if (c != undefined)
-			addRow(table, c.years != undefined ? c.years[0] : "", c.name, c.outcome_total);
+			addRow(table, c.years != undefined ? c.years[0] : "", c.name, currency(c.outcome_total));
 	});
 };
