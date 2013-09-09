@@ -4,18 +4,22 @@
 		<meta charset="UTF-8">
 		<title>OpenAid Visualization</title>
 		<meta name = "viewport" content = "initial-scale = 1, user-scalable = no">
-		<style>s
+		<style>
 			canvas{
 			}
 		</style>
 		<link rel="stylesheet" href="css/bootstrap.min.css">
 	</head>
 	<body>
-		<h1></h1>
 		<div class="container">
-		<div class="row">
-		<div class="col-lg-8">
-		<p><select onchange="countrySelect(this)">
+			<div class="row">
+			<div class="col-lg-8">
+			<h1>Titel</h1>
+			<div class="alert alert-danger" style="display:none;">
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+				<strong>Error</strong>
+			</div>
+			<p><select onchange="countrySelect(this)">
 			<option value="98">Globalt</option>
 			<option value="1">Afghanistan</option>
 			<option value="2">Albanien</option>
@@ -206,6 +210,7 @@
 		</div><!-- .container -->
 		<script src="js/Chart.js"></script>
 		<script src="js/jquery-2.0.3.js"></script>
+		   <script src="twitter-bootstrap-v2/docs/assets/js/bootstrap-alert.js"></script>
 		<script src="js/bootstrap.min.js"></script>
 		<script src="js/openaid-country.js"></script>
 		<script src="js/openaid.js"></script>

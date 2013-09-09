@@ -8,7 +8,7 @@ var fetch = function(url) {
 	}).done(function(data) { 
 		info = data
 	}).fail(function(data, message, error) {
-		throw new Error("Failed to fetch data on " + url + " because " + data.status + ": " + data.responseText);
+		throw new Error("Failed to fetch data on " + url + ", cause: " + data.responseText);
 	});
 	return info;	
 }

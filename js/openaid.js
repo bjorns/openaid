@@ -103,13 +103,19 @@ var addRow = function(table, year, name, outcome) {
 }
 
 var countrySelect = function(sel) {
-	var countryId = $(sel).val();
-	var country = createCountry(countryId);
-	$("h1").text(country.name());
-	var contributions = countryContributions(countryId);
-	var perYear = totalPerYear(country, contributions);
-	renderGraph(Object.keys(perYear), [dataset(values(perYear), 100, 100, 255)]);
-	renderContributionsTable(country, contributions);
+	try {
+		$('.alert').hide();
+		var countryId = $(sel).val();
+		var country = createCountry(countryId);
+		$("h1").text(country.name());
+		var contributions = countryContributions(countryId);
+		var perYear = totalPerYear(country, contributions);
+		renderGraph(Object.keys(perYear), [dataset(values(perYear), 100, 100, 255)]);
+		renderContributionsTable(country, contributions);
+	} catch (e) {
+		$('.alert').text(e.message);
+		$('.alert').show();
+	}
 }
 
 function isInt(value) { 
@@ -157,7 +163,8 @@ $(document).ready(function() {
 
 		renderContributionsTable(country, contributions);
 	} catch (e) {
-		console.log(e.message);
+		$('.alert').text(e.message);
+		$('.alert').show();
 	}
 
 })
