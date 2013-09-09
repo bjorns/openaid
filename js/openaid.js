@@ -63,11 +63,10 @@ var addRow = function(table, year, name, outcome) {
 	table.append('<tr><td>' + year + '</td><td>' + name + '</td><td>' + outcome + '</td></tr>');
 }
 
-var countrySelect = function(sel) {
+var countrySelectInternal = function(countryId) {
 	try {
 		$('.alert').hide();
-		var countryId = $(sel).val();
-		var country = createCountry(countryId);
+		var country = fetchCountry(countryId, undefined);
 		$("h1").text(country.name());
 		var contributions = country.contributions();
 		var perYear = contributions.totalPerYear()
@@ -80,6 +79,11 @@ var countrySelect = function(sel) {
 	}
 }
 
+var countrySelect = function(sel) {
+	var countryId = parseInt($(sel).val());
+	countrySelectInternal(countryId)
+}
+
 function isInt(value) { 
     return !isNaN(parseInt(value,10)) && (parseFloat(value,10) == parseInt(value,10)); 
 }
@@ -88,22 +92,22 @@ var wash = function(x) {
 	return isInt(x) ? x : 0;
 }
 
+var populateCountrySelect = function() {
+	var data = fetch('http://api.openaid.se/api/v1/country')
+	var select = $('select#country');
+	$(data).each(function(i,v){
+		var c = fetchCountry(parseInt(v.id), v);
+		select.append($("<option></option>").attr("value",v.id).text(c.name()));
+	});
+}
+
 $(document).ready(function() {
-	try {
-		var GLOBAL = 98;
-		var IRAQ = 120;
-		var AFGHANISTAN = 1;
-		var country = createCountry(AFGHANISTAN);
-		$("h1").text(country.name());
-		var contributions = country.contributions();
-		var _totalPerYear = contributions.totalPerYear();
-		renderGraph(Object.keys(_totalPerYear), [dataset(values(_totalPerYear), 100, 100, 255)]);
+	var GLOBAL = 98;
+	var IRAQ = 120;
+	var AFGHANISTAN = 1;
 
-		contributions.renderAsTable();
-	} catch (e) {
-		$('.alert').text(e.message);
-		$('.alert').show();
-		throw e;
-	}
+	populateCountrySelect();
 
+
+	countrySelectInternal(AFGHANISTAN)
 })

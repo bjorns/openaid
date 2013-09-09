@@ -5,7 +5,23 @@ function Country(countryId, json) {
 	this.json = json;	
 }
 
-function createCountry(countryId) {
+var countryCache = {}
+
+
+function fetchCountry(countryId, data) {
+	if (typeof countryId != 'number') {
+		throw new Error("Expected countryId " + countryId + " to be number.");
+	}
+	if (data != undefined) {
+		var country = new Country(countryId, data);
+		countryCache[countryId] = country;
+		return country;
+	}
+	if (countryCache[countryId] != undefined) {
+		console.log("Using cached country " + countryCache[countryId].name())
+		return countryCache[countryId];
+	}
+	console.log("Warning: re-fetching country for id " + countryId)
 	return new Country(countryId, fetch('http://api.openaid.se/api/v1/country?id=' + countryId)[0]);
 }
 
