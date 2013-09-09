@@ -50,8 +50,7 @@ var renderGraph = function(labels, dataset) {
 		labels: labels,
 		datasets : dataset
 	};
-
- 	graph.Line(lineChartData);
+	graph.Line(lineChartData);
 }
 
 
@@ -98,6 +97,13 @@ var populateCountrySelect = function() {
 }
 
 $(document).ready(function() {
+	$('#canvas').click(function(e){
+		var x = e.offsetX;
+		var y = e.offsetY;
+		console.log("Click at " + x + ":" + y);
+	});
+
+
 	var GLOBAL = 98;
 	var IRAQ = 120;
 	var AFGHANISTAN = 1;
