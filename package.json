@@ -1,0 +1,20 @@
+{
+  "author": "Björn Skoglund",
+  "name": "openaid-analytics",
+  "description": "Visualize openaid.se data",
+  "version": "0.1.0-beta",
+  "repository": {
+    "url": "http://github.com/bjorns/openaid"
+  },
+  "files": ["lib", "server.js", "css", "fonts", "js", "index.html"],
+  "main": "./server.js",
+  "bin": {
+    "server.js": "./server.js"
+  },
+  "dependencies": {"gjut": "0.1.4"},
+  "devDependencies": {},
+  "optionalDependencies": {},
+  "engines": {
+    "node": "*"
+  }
+}
