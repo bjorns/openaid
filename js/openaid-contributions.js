@@ -6,12 +6,12 @@ var fetch = function(url) {
 		url: url,
 		dataType: "json",
 		async: false
-	}).done(function(data) { 
+	}).done(function(data) {
 		info = data
 	}).fail(function(data, message, error) {
 		throw new Error("Failed to fetch data on " + url + ", cause: " + data.responseText);
 	});
-	return info;	
+	return info;
 }
 
 
@@ -34,7 +34,7 @@ var sumContributions = function(year, ids, contributions) {
 }
 
 var createContributions = function(country) {
-	return new Contributions(country, fetch('http://api.openaid.se/api/v1/contribution?country=' + country.countryId));
+	return new Contributions(country, fetch('/api/v1/contribution?country=' + country.countryId));
 }
 
 

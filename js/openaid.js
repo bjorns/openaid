@@ -18,7 +18,7 @@
 // 			data : [28,48,40,19,96,27,100]
 // 		}
 // 	]
-// 		
+//
 // }
 // var myLine = new Chart(document.getElementById("canvas").getContext("2d")).Line(lineChartData);
 
@@ -79,8 +79,8 @@ var countrySelect = function(sel) {
 	countrySelectInternal(countryId)
 }
 
-function isInt(value) { 
-    return !isNaN(parseInt(value,10)) && (parseFloat(value,10) == parseInt(value,10)); 
+function isInt(value) {
+    return !isNaN(parseInt(value,10)) && (parseFloat(value,10) == parseInt(value,10));
 }
 
 var wash = function(x) {
@@ -88,7 +88,7 @@ var wash = function(x) {
 }
 
 var populateCountrySelect = function() {
-	var data = fetch('http://api.openaid.se/api/v1/country')
+	var data = fetch('/api/v1/country')
 	var select = $('select#country');
 	$(data).each(function(i,v){
 		var c = fetchCountry(parseInt(v.id), v);

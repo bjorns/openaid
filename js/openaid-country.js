@@ -2,7 +2,7 @@
 
 function Country(countryId, json) {
 	this.countryId = countryId;
-	this.json = json;	
+	this.json = json;
 }
 
 var countryCache = {}
@@ -22,7 +22,7 @@ function fetchCountry(countryId, data) {
 		return countryCache[countryId];
 	}
 	console.log("Warning: re-fetching country for id " + countryId)
-	return new Country(countryId, fetch('http://api.openaid.se/api/v1/country?id=' + countryId)[0]);
+	return new Country(countryId, fetch('/api/v1/country?id=' + countryId)[0]);
 }
 
 Country.prototype.name = function() {
